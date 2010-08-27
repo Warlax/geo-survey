@@ -1,0 +1,8 @@
+#summary One-sentence summary of this page.
+
+= Introduction = Table design for geoPolling Database
+
+Add your content here.
+
+
+= Details = Original Design contains 4 tables, change will be made as necessary
