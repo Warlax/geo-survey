@@ -1,8 +1,9 @@
 #summary Database table design.
 
-= Introduction = Table design for geoPolling Database
+= Introduction = 
 
-Add your content here.
+Table design for geoPolling Database
 
+= Details = 
 
-= Details = Original Design contains 4 tables, change will be made as necessary. Please find the diagram in the download section either pdf or visio format. 
+Original Design contains 4 tables, change will be made as necessary. Please find the diagram in the download section either pdf or visio format. 
