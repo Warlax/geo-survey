@@ -8,14 +8,21 @@ function.  It is HTML5 based.
 // the callbackReportError() function will be called.
 function getLocation()
 {
-	callbackGettingLocation()
-	if (navigator.geolocation) 
+	if(Modernizr.geolocation)
 	{
-		navigator.geolocation.getCurrentPosition(success, error) 
+		callbackGettingLocation()
+		if (navigator.geolocation) 
+		{
+			navigator.geolocation.getCurrentPosition(success, error) 
+		}
+		else
+		{
+			callbackReportError(4, "geolocation services are not supported by this browser.");
+		}  
 	}
 	else
 	{
-		alert("I'm sorry, but geolocation services are not supported by your browser.");
+		callbackReportError(5, "geolocation services are not supported by the browser due to lack of support of HTML 5.");
 	}  
 }
 
