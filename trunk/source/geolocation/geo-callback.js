@@ -30,6 +30,9 @@ function callbackReportLocation(latitude, longitude, accuracy)
 	newdiv.setAttribute('id', 'location')
 	newdiv.innerHTML = '<p><font color=\'green\'>Location: ' + latitude + ', ' + longitude + ' @ ' + accuracy +'</font></p>';
 	ni.appendChild(newdiv);
+	
+	var map = createGoogleMap("map_canvas", latitude, longitude, 20)
+	addMarker(map, latitude, longitude, "You are here", "#0000ff")
 }
 
 //Called by geolocation.js in response when there was a problem determining the geolocation
