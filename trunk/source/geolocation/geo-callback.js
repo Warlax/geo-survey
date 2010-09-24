@@ -10,11 +10,15 @@ Instead, substitute or extend their implementation to do something you want.
 function callbackGettingLocation()
 {
 	// add a temporary element to notify the user we are getting the location.
-	var ni = document.getElementById('geolocation-status')
+	var ni = document.getElementById('status')
+	ni.innerHTML = '<p><font color=\'blue\'>Getting Location...</font></p>'
+	/*
+	var ni = document.getElementById('status')
 	var newdiv = document.createElement('div');
 	newdiv.setAttribute('id', 'getting')
 	newdiv.innerHTML = '<p><font color=\'blue\'>Getting Location...</font></p>';
 	ni.appendChild(newdiv);
+	//*/
 }
 
 // Called by geolocation.js when the location was determined successfully.
@@ -24,17 +28,16 @@ function callbackGettingLocation()
 function callbackReportLocation(latitude, longitude, accuracy)
 {
 	// first, remove the element added by callbackGettingLocation...
-	var ni = document.getElementById('geolocation-status')
+	var ni = document.getElementById('status')
+	ni.innerHTML = ''
+	/*
+	var ni = document.getElementById('status')
 	var toRemove = document.getElementById('getting')
 	ni.removeChild(toRemove)
-	
-	// then, add a new element telling the user their location
-	/*
-	var newdiv = document.createElement('div');
-	newdiv.setAttribute('id', 'location')
-	newdiv.innerHTML = '<p><font color=\'green\'>Location: ' + latitude + ', ' + longitude + ' @ ' + accuracy +'</font></p>';
-	ni.appendChild(newdiv);
 	//*/
+	
+	// show the map:
+	showMap('map', latitude, longitude, null)
 	
 	// populate the hidden latitude/longitude inputs of the form:
 	var latElement = document.getElementById('latitude')
@@ -57,17 +60,22 @@ function callbackReportLocation(latitude, longitude, accuracy)
 }
 
 //Called by geolocation.js in response when there was a problem determining the geolocation
-function callbackReportError(errorCode, errorText)
+function callbackReportError(errorCode, errorText, errorDetails)
 {
+	var ni = document.getElementById('status')
+	ni.innerHTML = '<font color=\'red\'>' + errorText + '</font><b><i>' + errorDetails + '</i></b><br/>Error Code: ' + errorCode
+
+	/*
 	// first, remove the element added by callbackGettingLocation...
-	var ni = document.getElementById('geolocation-status')
+	var ni = document.getElementById('status')
 	var toRemove = document.getElementById('getting')
 	ni.removeChild(toRemove)
 	
 	// then, add a new element telling the user about the error
 	var newdiv = document.createElement('div');
 	newdiv.setAttribute('id', 'location')
-	newdiv.innerHTML = '<p><font color=\'red\'>Error(' + errorCode + '): ' + errorText + '</font></p>';
+	newdiv.innerHTML = '<font color=\'red\'>' + errorText + '</font><b><i>' + errorDetails + '</i></b><br/>Error Code: ' + errorCode
 	ni.appendChild(newdiv);
+	//*/
 }
 

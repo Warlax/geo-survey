@@ -60,7 +60,9 @@ function populateGoogleMap(map, locations)
 // It will create/update the map in the document element specified by the elementId parameter.
 // The map will be centered at centerLat, centerLng
 // Answer markers will be added to the map according to the answerList:
-// If the answerList is null or empty, nothing will be added.
+// If the answerList is null or empty, no markers will be added (other than possibly: one for the user's location)
+// Also, if the list is empty, it could be useful to add some sort of text to the marker or to the bottom of the map
+// such as "you are here"
 // the answerList parameter is a list of dictionaries, each one representing a single answer.
 // each of these dictionaries has the following three name/value pairs:
 // -- answerId, an integer id for the answer
