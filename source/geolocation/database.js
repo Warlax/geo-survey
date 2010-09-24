@@ -1,3 +1,101 @@
+//Warning: do not call this directly.
+// Called by the create question function once the question has been added the database...
+var callback_createQuestion = function questionCreated(response)
+{
+	// check for error:
+	if(response == 0)
+	{
+		// Give a status:
+		var statusElement = document.getElementById('status')
+		statusElement.innerHTML = '<font color=\"#ff0000\">There was an error submitting this question</font>'
+
+		return
+	}
+	
+	// Give a status:
+	var statusElement = document.getElementById('status')
+	statusElement.innerHTML = '<font color=\"#00ff00\">...your question was created successfully</font>'
+	
+	// clean up old question entries...
+	var questionDescElement = document.getElementById('questionDesc')
+	questionDescElement.value = ''
+	var answerListElement = document.getElementById('answerList')
+	if (answerListElement.hasChildNodes())
+	{
+	    while (answerListElement.childNodes.length >= 1)
+	    {
+	        answerListElement.removeChild(answerListElement.firstChild);       
+	    } 
+	}
+	
+	// add list items again:
+	for (i=0; i < 10; i++)
+	{
+		var child = document.createElement('li')
+		child.innerHTML = i + ".&nbsp;<input type=\"text\"/>"
+		answerListElement.appendChild(child)
+	}
+}
+
+
+//Warning: do not call this directly.
+// Called by the create question button to create a question and add it to the database.
+function createQuestion()
+{
+	// Give a status:
+	var statusElement = document.getElementById('status')
+	statusElement.innerHTML = '<font color=\"#0000ff\">Submitting new question...</font>'
+	
+	// TODO make the ajax call to store this in the database
+	// the response can be anything other than 0.  0 means error.
+	/*
+	$.ajax({
+	      type: "POST",
+	      url: "/post.php",  //address of the php code
+	      data: "otherParams", // parameter to pass onto the php code. 
+	      success: function(callback_createQuestion){ 
+	        // we have the response
+	        callback_createQuestion(resp); //callback function is called to handle the resp text. 
+	        return 1; 
+	        },
+	      error: function(e){
+	        callback_createQuestion(0); //callback function need to be able to handle error also. 
+	        return 0;
+	      }
+	    });
+	//*/
+	
+	//TODO -- this is a temporary call of the callback, remove this:
+	var response = 1	
+	callback_createQuestion(response)
+}
+
+// Warning: do not call this yourself.
+// Removes the page elements of the current question.
+function removeCurrentQuestion()
+{
+	// Clear the status:
+	var statusElement = document.getElementById('status')
+	statusElement.innerHTML = ''
+
+	var questionElement = document.getElementById("question")
+	questionElement.innerHTML = ''
+	var questionIdElement = document.getElementById("questionId")
+	questionIdElement.value = -1
+	var form = document.getElementById("answer_form")
+	
+	var toRemove = []
+	toRemove.push(document.getElementById('answer list'))
+	toRemove.push(document.getElementById('submit button'))
+	toRemove.push(document.getElementById('skip link'))
+
+	for (var index in toRemove)
+	{
+		elementToRemove = toRemove[index]
+		form.removeChild(elementToRemove)
+	}
+}
+
 // Warning: do not call this yourself.
 // This function is called by the submitAnswer function once a user answer was submitted successfully to the server.
 // The response parameter is a JSON object like this:
@@ -9,6 +107,19 @@
 //                                                                ... ]}
 var callback_submitAnswer = function reportAnswerSubmitted(response)
 {
+	// check for error:
+	if(response == 0)
+	{
+		// Give a status:
+		var statusElement = document.getElementById('status')
+		statusElement.innerHTML = '<font color=\"#ff0000\">There was an error submitting this answer, try again later</font>'
+		return
+	}
+	
+	// Give a status:
+	var statusElement = document.getElementById('status')
+	statusElement.innerHTML = '<font color=\"#00ff00\">...your answer was submitted successfully.</font>'
+
 	var mapParams = {}	
 	var questionDesc = response["question"]
 	var answers = response["locations"]
@@ -25,17 +136,7 @@ var callback_submitAnswer = function reportAnswerSubmitted(response)
 	// TODO -- optional: show a pie chart alongside the map...
 	
 	// remove the old question:
-	var questionElement = document.getElementById("question")
-	questionElement.innerHTML = ''
-	var questionIdElement = document.getElementById("questionId")
-	questionIdElement.value = -1
-	var form = document.getElementById("answer_form")
-	
-	var toRemove1 = document.getElementById('answer list')
-	var toRemove2 = document.getElementById('submit button')
-	
-	form.removeChild(toRemove1)
-	form.removeChild(toRemove2)
+	removeCurrentQuestion()
 	
 	// get a new question:
 	getRandomQuestion()
@@ -89,10 +190,17 @@ function submitAnswer()
 	// make sure something was checked:
 	if(answerId == null)
 	{
-		// TODO
+		// Give a status:
+		var statusElement = document.getElementById('status')
+		statusElement.innerHTML = '<font color=\"#ff0000\">You must select an answer!</font>'
+		return
 	}
 	else
 	{
+		// Give a status:
+		var statusElement = document.getElementById('status')
+		statusElement.innerHTML = '<font color=\"#0000ff\">Submitting your answer...</font>'
+
 		// create the JSON object:
 		var object = {"questionId":questionId, "answerId":answerId, "latitude":latitude, 
 		              "longitude":longitude, "age":age, "gender":gender}
@@ -109,7 +217,7 @@ function submitAnswer()
 		        return 1; 
 		        },
 		      error: function(e){
-		        callback(0); //callback function need to be able to handle error also. 
+		        callback_submitAnswer(0); //callback function need to be able to handle error also. 
 		        return 0;
 		      }
 		    });
@@ -126,6 +234,13 @@ function submitAnswer()
 // the IDs will be used to store the question and answer in the database.
 var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 {
+	// check for error:
+	if(questionObject == 0)
+	{
+		//TODO -- handle error...
+		return
+	}
+	
 	// sample: {"questionId":"id", "question":"what is blah blah", "answers":[{"answerId":1, "answerDesc":"it is a"}, {"answerId":2, "answerDesc":"it is b"}]}
 	var questionId = questionObject["questionId"]
 	var questionText = questionObject["question"]
@@ -168,6 +283,13 @@ var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 	var onClickString = 'submitAnswer()'
 	submitButton.setAttribute('onClick', onClickString)
 	form.appendChild(submitButton)
+	
+	var skipLink = document.createElement('a')
+	skipLink.setAttribute('id', 'skip link')
+	skipLink.setAttribute('href', '#')
+	skipLink.setAttribute('onClick', 'removeCurrentQuestion(); getRandomQuestion()')
+	skipLink.innerHTML = 'skip this question'
+	form.appendChild(skipLink)
 }
 
 // The function will initiate a database query to return a JSON object containing a question so it can be displayed to the user.
@@ -194,7 +316,7 @@ function getRandomQuestion()
 	        return 1; 
 	        },
 	      error: function(e){
-	        callback(0); //callback function need to be able to handle error also. 
+	        callback_getRandomQuestion(0); //callback function need to be able to handle error also. 
 	        return 0;
 	      }
 	    });

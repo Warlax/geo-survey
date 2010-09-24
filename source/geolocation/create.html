@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<title>GeoHive</title>
+	<script type="text/javascript" src="modernizr-1.5.min.js"></script>
+	<script type="text/javascript" src="google-maps-wrapper.js"></script>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="database.js"></script>
+	<script type="text/javascript" src="geolocation.js"></script>
+	<script type="text/javascript" src="geo-callback.js"></script>
+</head>
+<body>
+	<div class="header">
+		<h2>GeoHive -- create a question</h2>
+	</div>
+	<div id="status">
+		<!-- place holder for create/error messages-->
+	</div>
+	<div class="content">
+		<div id="form">
+			<p class="field name">Question: <input id="questionDesc" type="text"/></p>
+		    <p class="field description">Try to be clear and concise, this is the question people will see.</p>
+		    <p class="field description">Now, create up to 10 possible answers.  Empty answers will not be used.</p>
+		    <ul id="answerList">
+			  <li>1.&nbsp;<input type="text"/></li>
+			  <li>2.&nbsp;<input type="text"/></li>
+			  <li>3.&nbsp;<input type="text"/></li>
+			  <li>4.&nbsp;<input type="text"/></li>
+			  <li>5.&nbsp;<input type="text"/></li>
+			  <li>6.&nbsp;<input type="text"/></li>
+			  <li>7.&nbsp;<input type="text"/></li>
+			  <li>8.&nbsp;<input type="text"/></li>
+			  <li>9.&nbsp;<input type="text"/></li>
+			  <li>10.&nbsp;<input type="text"/></li>
+			</ul>
+			<input type="submit" value="Create Question" onClick="createQuestion()"/>
+		</div>
+	</div>
+	<div class="footer">
+		<a href="index.html">Answer random questions</a>
+		<p>Copyright GeoHive&copy;  2010</p>
+	</div>
+</body>
+</html>

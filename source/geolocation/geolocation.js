@@ -39,21 +39,27 @@ function success(p)
 function error(err)
 {
 	var errText = 'unknown error'
+	var errDetails = ''
 	if(err.code == 1)
 	{
-		errText = 'permission denied by user'
+		errText = "You have denied permission to use your browser's geolocation functionality."
+		errDetails = "<br/>You cannot answer questions on GeoHive without permitting geolocation.<br/>Click <a href=\"geolocation.html\">here</a> to see why and how we use your location."
 	}
 	else if(err.code == 2)
 	{
-		errText = 'position unavailable'
+		errText = "This browser does not support HTML5 location aware services." 
+		errDetails = "We are sorry, but you cannot use GeoHive.<br/>" +
+		"To see which browsers support geolocation, click <a href=\"geolocation.html\">here</a>"
 	}
 	else if(err.code == 3)
 	{
-		errText = 'timed out'
+		errText = "We're sorry, it is taking too long to get your location from your browser."
+		errDetails = "Please try reloading the page."
 	}
 	else if(err.code == 0)
 	{
-		errText = 'unknown error'
+		errText = "Ouch, we've just experienced an unknown error!<br/>"
+		errDetails = "Please try reloading the page."
 	}
-	callbackReportError(err.code, errText)
+	callbackReportError(err.code, errText, errDetails)
 }
