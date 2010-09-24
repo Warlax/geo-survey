@@ -18,9 +18,68 @@ function createGoogleMap(elementId, center_lat, center_lng, initial_zoom)
 
 // Add a marker to the given map.
 // The marker's location is given by latitude and longitude.
-// The title appears if you hover your mouse over the marker.
-function addMarker(map, latitude, longitude, title)
+function addMarker(map, latitude, longitude)
 {
 	var latlng = new google.maps.LatLng(latitude, longitude)
-	var marker = new google.maps.Marker({position: latlng, map: map, title: title})
+	var marker = new google.maps.Marker({position: latlng, map: map})
+}
+
+// This function takes in an array of google.maps.LatLng objects
+// and returns a single google.maps.LatLng object that's the center
+// of all the objects passed in the array.
+function averageLatLng(latLngArray)
+{
+	var lat = 0
+	var lng = 0
+	var counter = 0
+	for(latLng in latLngArray)
+	{
+		lat += latLng.lat
+		lng += latLng.lng
+		counter++
+	}
+	
+	return new google.maps.LatLng(lat/counter, lng/counter)
+}
+
+// This function takes a google map object and an array of google.maps.LatLng objects.
+// It will add a marker at each location in the locations array and center the map
+// at the average location
+function populateGoogleMap(map, locations)
+{
+	for(location in locations)
+	{
+		addMarker(map, location.lat, location.lng)
+	}
+	
+	var center = averageLatLng(locations)
+	map.setCenter(center)
+}
+
+// This function can show a new map (or update an existing map) on the page.
+// It will create/update the map in the document element specified by the elementId parameter.
+// The map will be centered at centerLat, centerLng
+// Answer markers will be added to the map according to the answerList:
+// If the answerList is null or empty, nothing will be added.
+// the answerList parameter is a list of dictionaries, each one representing a single answer.
+// each of these dictionaries has the following three name/value pairs:
+// -- answerId, an integer id for the answer
+// -- answerDesc, a text string describing the question, i.e. "Do you like burritos?"
+// -- locations, a list of dictionaries, one per geolocation of a person that answered using this answer, each having 2 name/value pairs:
+// -- -- latitude, a float describing the latitude of the position
+// -- -- longitude, a float describing the longitude of the position
+function showMap(elementId, centerLat, centerLng, answerList)
+{
+	//TODO -- replace this code:
+	var map_placeholder = document.getElementById(elementId)
+	if (map_placeholder.hasChildNodes())
+	{
+	    while(map_placeholder.childNodes.length >= 1)
+	    {
+	        map_placeholder.removeChild(map_placeholder.firstChild);       
+	    }
+	}
+	var notification = document.createElement('p')
+	notification.innerHTML = 'new map!'
+	map_placeholder.appendChild(notification)
 }
