@@ -29,10 +29,10 @@ var callback_createQuestion = function questionCreated(response)
 	}
 	
 	// add list items again:
-	for (i=0; i < 10; i++)
+	for (i=1; i <= 10; i++)
 	{
 		var child = document.createElement('li')
-		child.innerHTML = i + ".&nbsp;<input type=\"text\"/>"
+		child.innerHTML = i + ".&nbsp;<input id=\"answer_" + i + "\" type=\"text\"/>"
 		answerListElement.appendChild(child)
 	}
 }
@@ -42,10 +42,43 @@ var callback_createQuestion = function questionCreated(response)
 // Called by the create question button to create a question and add it to the database.
 function createQuestion()
 {
+	var questionDesc = document.getElementById('questionDesc').value
+	var answers = []
+
+	for(i = 1; i <= 10; i++)
+	{
+		var element = document.getElementById('answer_' + i)
+		var value = element.value
+		if(value != '')
+		{
+			answers.push(value)
+		}
+	}	
+	
+	// Validation, question field and at least 2 answers must be provided...
+	var error = ''
+	if(questionDesc == '')
+	{
+		error += '<li>You must provide a question.</li>'
+	}
+	if(answers.length < 2)
+	{
+		error += '<li>You must provide at least 2 answers.</li>'
+	}
+	
+	if(error != '')
+	{
+		// Give a status:
+		var statusElement = document.getElementById('status')
+		statusElement.innerHTML = '<font color=\"#ff0000\">Errors:<ul>' + error + '</ul>Question not created.</font>'
+		return
+	}
+	
 	// Give a status:
 	var statusElement = document.getElementById('status')
 	statusElement.innerHTML = '<font color=\"#0000ff\">Submitting new question...</font>'
 	
+	var object = {"question":questionDesc, "answers":answers}
 	// TODO make the ajax call to store this in the database
 	// the response can be anything other than 0.  0 means error.
 	/*
