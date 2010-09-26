@@ -81,7 +81,15 @@ function showMap(elementId, centerLat, centerLng, answerList)
 	        map_placeholder.removeChild(map_placeholder.firstChild);       
 	    }
 	}
+	
+	width = (document.width * 0.9) | 0
+	height = (document.height * 0.5) | 0
+	
+	map_placeholder.style.width =  width + 'px'
+	map_placeholder.style.height = height + 'px'
+
 	var notification = document.createElement('p')
 	notification.innerHTML = 'new map!'
 	map_placeholder.appendChild(notification)
+	//*/
 }
