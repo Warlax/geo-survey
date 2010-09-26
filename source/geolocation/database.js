@@ -138,6 +138,11 @@ function removeCurrentQuestion()
 //                                                                              "longitude":longitude}
 //                                                                            ... ]}
 //                                                                ... ]}
+//
+// Example:
+// {"questionId":questionId, "question":questionDesc, "answers":[{"answerId":0, "answerDesc":"Yes", "locations":[{"latitude":50, "longitude":50}, {"latitude":51, "longitude":51}]},
+//                                                                           {"answerId":1, "answerDesc":"No", "locations":[{"latitude":52, "longitude":52}, {"latitude":53, "longitude":53}]},
+//                                                                           {"answerId":2, "answerDesc":"What's a burrito?", "locations":[{"latitude":54, "longitude":54}, {"latitude":55, "longitude":55}]}]}
 var callback_submitAnswer = function reportAnswerSubmitted(response)
 {
 	// check for error:
@@ -155,7 +160,7 @@ var callback_submitAnswer = function reportAnswerSubmitted(response)
 
 	var mapParams = {}	
 	var questionDesc = response["question"]
-	var answers = response["locations"]
+	var answers = response["answers"]
 
 	// get the geolocation from the page, we'll use this to center the map:
 	var latElement = document.getElementById('latitude')
@@ -196,6 +201,8 @@ function submitAnswer()
 	var questionId = qIdElement.value
 	var listItems = answerList.childNodes
 	var answerId = null
+	var answerDesc = null
+	
 	for (var index in listItems)
 	{
 		var listItem = listItems[index]
@@ -216,6 +223,16 @@ function submitAnswer()
 		
 		if(answerId != null)
 		{
+			// now let's look for the answer description from the label element:
+			for(var listItemChildIndex in listItem.childNodes)
+			{
+				var listItemChild = listItem.childNodes[listItemChildIndex]
+				if(listItemChild.tagName == "LABEL")
+				{
+					var label = listItemChild
+					answerDesc = label.innerHTML
+				}
+			}
 			break
 		}
 	}
@@ -257,7 +274,9 @@ function submitAnswer()
 		//*/
 		
 		//TODO -- this is a temporary call of the callback, remove this:
-		var response = {"questionId":questionId, "question":questionDesc ,"answerId":answerId, "locations":[{"latitude":100, "longitude":100}, {"latitude":101, "longitude":101}]}
+		var response = {"questionId":questionId, "question":questionDesc, "answers":[{"answerId":0, "answerDesc":"Yes", "locations":[{"latitude":50, "longitude":50}, {"latitude":51, "longitude":51}]},
+		                                                                             {"answerId":1, "answerDesc":"No", "locations":[{"latitude":52, "longitude":52}, {"latitude":53, "longitude":53}]},
+		                                                                             {"answerId":2, "answerDesc":"What's a burrito?", "locations":[{"latitude":54, "longitude":54}, {"latitude":55, "longitude":55}]}]}
 		callback_submitAnswer(response)
 	}
 }
