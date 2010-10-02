@@ -18,10 +18,26 @@ function createGoogleMap(elementId, center_lat, center_lng, initial_zoom)
 
 // Add a marker to the given map.
 // The marker's location is given by latitude and longitude.
-function addMarker(map, latitude, longitude)
+function addMarker(map, latitude, longitude, iconId)
 {
-	var latlng = new google.maps.LatLng(latitude, longitude)
-	var marker = new google.maps.Marker({position: latlng, map: map})
+
+    if(iconId != null)//if null then only make user location marker
+    {
+        var image = 'http://hivemap.comuf.com/icons/'+iconId+'.png';
+  
+        var latlng = new google.maps.LatLng(latitude, longitude);
+        var marker = new google.maps.Marker({position: latlng,
+                                                  map: map,
+                                                 icon: image });
+    }
+    else
+    {
+        var latlng = new google.maps.LatLng(latitude, longitude);
+        var marker = new google.maps.Marker({position: latlng,
+                                                  map: map,
+                                                  title: 'You Are Here!' });
+    }
+    
 }
 
 // This function takes in an array of google.maps.LatLng objects
@@ -87,9 +103,36 @@ function showMap(elementId, centerLat, centerLng, answerList)
 	
 	map_placeholder.style.width =  width + 'px'
 	map_placeholder.style.height = height + 'px'
-
-	var notification = document.createElement('p')
-	notification.innerHTML = 'new map!'
-	map_placeholder.appendChild(notification)
+    
+    var map = createGoogleMap(elementId, centerLat, centerLng, 100)
+    
+    if(answerList == null)
+    {
+        addMarker(map, centerLat, centerLng);
+        
+    }//end if
+    else
+    { //show all previous answers to the map
+    
+    
+        for(var x = 0; x < answerList.length; x++)//go through each answer
+        {
+            var answer = answerList[x];
+            var locations = answer["locations"];
+        
+            for(var i = 0; i < locations.length; i++)
+            {
+                var location = locations[i];
+                var lat = location["latitude"];
+                var lng = location["longitude"]; 
+           
+                addMarker(map, lat, lng, x);
+            } 
+        }
+    }//end else
+    
+	//var notification = document.createElement('p')
+	//notification.innerHTML = 'new map!'
+	//map_placeholder.appendChild(notification)
 	//*/
 }
