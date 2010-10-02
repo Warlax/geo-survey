@@ -4,7 +4,7 @@
 
 #require_once 'db_config.inc.php';
 require_once 'post.php';
-$questionId = $_GET['questionId'];
+$questionId = $_POST['questionId'];
 #------------------------------------------------------#
 #Start Sql statement, no where yet.
 
@@ -13,8 +13,7 @@ $sql = "Select questionId, questionDesc from Question ";
 #if no questionId provided or questionId <1 , generate random question.using Rand() function. 
 if($questionId < 1 || !$questionId)
 {
-	$questionId = 1;
- # return 0; 
+  return 0; 
 }
 
 #if question id is provided, include a where. 
