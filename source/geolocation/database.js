@@ -84,7 +84,7 @@ function createQuestion()
 	/*
 	$.ajax({
 	      type: "POST",
-	      url: "/post.php",  //address of the php code
+	      url: "../post/post.php",  //address of the php code
 	      data: "otherParams", // parameter to pass onto the php code. 
 	      success: function(callback_createQuestion){ 
 	        // we have the response
@@ -259,7 +259,7 @@ function submitAnswer()
 		/*
 		$.ajax({
 		      type: "POST",
-		      url: "/post.php",  //address of the php code
+		      url: "../post/post.php",  //address of the php code
 		      data: "otherParams", // parameter to pass onto the php code. 
 		      success: function(callback_submitAnswer){ 
 		        // we have the response
@@ -348,31 +348,23 @@ var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 // When done, it will call reportRandomQuestion with the JSON object.
 function getRandomQuestion()
 {
-	// sample: {"questionId":"id", "question":"what is blah blah", "answers":[{"answerId":1, "answerDesc":"it is a"}, {"answerId":2, "answerDesc":"it is b"}]}
-	// TODO -- replace this fake question, with real database stuff
-	var ret = {"questionId":3, 
-	           "question":"Do you like burritos?",
-	           "answers":[{"answerId":0, "answerDesc":"Yes"},
-	                      {"answerId":1, "answerDesc":"No"},
-	                      {"answerId":2, "answerDesc":"What's a burrito?"}]}
-	
-	// TODO make the ajax call to get this from the database
-	/*
 	$.ajax({
 	      type: "POST",
-	      url: "/post.php",  //address of the php code
-	      data: "otherParams", // parameter to pass onto the php code. 
-	      success: function(callback_getRandomQuestion){ 
-	        // we have the response
-	        callback_getRandomQuestion(resp); //callback function is called to handle the resp text. 
-	        return 1; 
-	        },
+	      url: "../post/get_question.php",  //address of the php code
+	      data: "questionId=0", // parameter to pass onto the php code. 
+	      success: function(resp){ 
+	          // we have the response
+	          if(resp.indexOf('<!') != -1)
+  			  {
+	              resp = resp.substring(0,resp.indexOf('<!'));
+			  }
+	          alert(resp)
+              callback_getRandomQuestion(JSON.parse(resp)); //callback function is called to handle the resp text. 
+              return 1; 
+	      },
 	      error: function(e){
-	        callback_getRandomQuestion(0); //callback function need to be able to handle error also. 
-	        return 0;
+	          callback_getRandomQuestion(0); //callback function need to be able to handle error also. 
+	          return 0;
 	      }
 	    });
-	//*/
-	
-	callback_getRandomQuestion(ret)
 }
