@@ -6,7 +6,7 @@
 #---------------------------------------------------------------------------#
 function runSQL($rsql) {
 
-$connect = mysql_connect("localhost","root","root") or die ("Error: could not connect to database". mysql_error());
+$connect = mysql_connect("mysql5.000webhost.com","a4202280_hive","comp595") or die ("Error: could not connect to database". mysql_error());
 
 $db = mysql_select_db("a4202280_hive",$connect) or die( mysql_error());
 $result = mysql_query($rsql) or die (mysql_error());
