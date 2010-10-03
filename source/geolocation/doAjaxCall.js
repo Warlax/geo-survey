@@ -5,7 +5,8 @@ $.ajax({
       data: "questionId="+questionId, // parameter to pass onto the php code.
       success: function(resp){
         // we have the response
-        
+        if(resp.indexOf("<!")) resp = resp.substring(0,resp.indexOf("<!"));
+		
         callback(JSON.parse(resp)); //callback function is called to handle the resp text.
         return 1;
         },
@@ -23,7 +24,11 @@ $.ajax({
       data: "questionId="+questionId, // parameter to pass onto the php code.
       success: function(resp){
         // we have the response
-        
+        if(resp.indexOf("<!") >0){
+				alert(resp);
+	 			resp = resp.substring(0,resp.indexOf("<!"));
+		}
+      // alert(resp);
         callback(JSON.parse(resp)); //callback function is called to handle the resp text.
         return 1;
         },
