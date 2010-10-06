@@ -8,7 +8,6 @@ var callback_createQuestion = function questionCreated(response)
 		// Give a status:
 		var statusElement = document.getElementById('status')
 		statusElement.innerHTML = '<font color=\"#ff0000\">There was an error submitting this question</font>'
-
 		return
 	}
 	
@@ -78,29 +77,34 @@ function createQuestion()
 	var statusElement = document.getElementById('status')
 	statusElement.innerHTML = '<font color=\"#0000ff\">Submitting new question...</font>'
 	
-	var object = {"question":questionDesc, "answers":answers}
+	var object = {"questionDesc":questionDesc, "answers":answers}
 	// TODO make the ajax call to store this in the database
 	// the response can be anything other than 0.  0 means error.
-	/*
+
 	$.ajax({
 	      type: "POST",
-	      url: "../post/post.php",  //address of the php code
-	      data: "otherParams", // parameter to pass onto the php code. 
-	      success: function(callback_createQuestion){ 
-	        // we have the response
-	        callback_createQuestion(resp); //callback function is called to handle the resp text. 
-	        return 1; 
+	      url: "../post/create_question.php",  //address of the php code
+	      data: object ,   // parameter to pass onto the php code. 
+	      success: function(resp){ 
+	          // we have the response
+	          if(resp.indexOf('<!') != -1)
+  			  {
+	              resp = resp.substring(0,resp.indexOf('<!'));
+			  }
+	          alert(resp)
+                  callback_createQuestion(JSON.parse(resp)); //callback function is called to handle the resp text. 
+                  return 1; 
 	        },
 	      error: function(e){
 	        callback_createQuestion(0); //callback function need to be able to handle error also. 
 	        return 0;
 	      }
 	    });
-	//*/
+	
 	
 	//TODO -- this is a temporary call of the callback, remove this:
-	var response = 1	
-	callback_createQuestion(response)
+	//var response = 1	
+	//callback_createQuestion(response)
 }
 
 // Warning: do not call this yourself.
@@ -256,22 +260,27 @@ function submitAnswer()
 		              "longitude":longitude, "age":age, "gender":gender}
 		// TODO make the ajax call to store this in the database
 		// the response object needs to be a JSON object as defined in the reportAnswerSubmitted function
-		/*
+		
 		$.ajax({
 		      type: "POST",
-		      url: "../post/post.php",  //address of the php code
-		      data: "otherParams", // parameter to pass onto the php code. 
-		      success: function(callback_submitAnswer){ 
-		        // we have the response
-		        callback_submitAnswer(resp); //callback function is called to handle the resp text. 
-		        return 1; 
+		      url: "../post/save_answer.php",  //address of the php code
+		      data: object, // parameter to pass onto the php code. 
+		      success: function(resp){ 
+	          // we have the response
+	              if(resp.indexOf('<!') != -1)
+  	         	  {
+	              resp = resp.substring(0,resp.indexOf('<!'));
+			  }
+	            alert(resp)
+                    callback_submitAnswer(JSON.parse(resp)); //callback function is called to handle the resp text. 
+                    return 1; 
 		        },
-		      error: function(e){
-		        callback_submitAnswer(0); //callback function need to be able to handle error also. 
-		        return 0;
+		    error: function(e){
+		    callback_submitAnswer(0); //callback function need to be able to handle error also. 
+		    return 0;
 		      }
 		    });
-		//*/
+		
 		
 		//TODO -- this is a temporary call of the callback, remove this:
 		var response = {"questionId":questionId, "question":questionDesc, "answers":[{"answerId":0, "answerDesc":"Yes", "locations":[{"latitude":50, "longitude":50}, {"latitude":51, "longitude":51}]},
@@ -358,6 +367,7 @@ function getRandomQuestion()
   			  {
 	              resp = resp.substring(0,resp.indexOf('<!'));
 			  }
+	          alert(resp)
               callback_getRandomQuestion(JSON.parse(resp)); //callback function is called to handle the resp text. 
               return 1; 
 	      },
