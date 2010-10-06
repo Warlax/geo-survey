@@ -1,5 +1,5 @@
 //Warning: do not call this directly.
-// Called by the create question function once the question has been added the database...
+//  Called by the create question function once the question has been added the database...
 var callback_createQuestion = function questionCreated(response)
 {
 	// check for error:
