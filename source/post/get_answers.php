@@ -53,7 +53,7 @@ while ($myrow = mysql_fetch_array($myresult,MYSQL_ASSOC))
 	}
 	$arr["answerId"]=$myrow[answerId];
 	$arr["answerDesc"]=$myrow[answerDesc];
-	$arr["list"]= $arr_res;
+	$arr["locations"]= $arr_res;
 	array_push($ret[answers], $arr);
 
 }
