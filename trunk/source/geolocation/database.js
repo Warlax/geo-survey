@@ -288,7 +288,7 @@ var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 	
 	// sample: {"questionId":"id", "question":"what is blah blah", "answers":[{"answerId":1, "answerDesc":"it is a"}, {"answerId":2, "answerDesc":"it is b"}]}
 	var questionId = questionObject["questionId"]
-	var questionText = questionObject["question"]
+	var questionText = questionObject["questionDesc"]
 	var answerList = questionObject["answers"]
 	
 	var questionElement = document.getElementById("question")
