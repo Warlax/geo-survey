@@ -261,7 +261,9 @@ function submitAnswer()
  	          {
                   resp = resp.substring(0,resp.indexOf('<!'));
     	      }
-              callback_submitAnswer(JSON.parse(resp)); //callback function is called to handle the resp text. 
+
+              getAnswers(callback_submitAnswer, questionId)
+
               return 1; 
 	        },
 		    error: function(e)
@@ -341,22 +343,5 @@ var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 // When done, it will call reportRandomQuestion with the JSON object.
 function getRandomQuestion()
 {
-	$.ajax({
-	      type: "POST",
-	      url: "../post/get_question.php",  //address of the php code
-	      data: "questionId=0", // parameter to pass onto the php code. 
-	      success: function(resp){ 
-	          // we have the response
-	          if(resp.indexOf('<!') != -1)
-  			  {
-	              resp = resp.substring(0,resp.indexOf('<!'));
-			  }
-              callback_getRandomQuestion(JSON.parse(resp)); //callback function is called to handle the resp text. 
-              return 1; 
-	      },
-	      error: function(e){
-	          callback_getRandomQuestion(0); //callback function need to be able to handle error also. 
-	          return 0;
-	      }
-	    });
+	getQuestion(callback_getRandomQuestion, 0)
 }
