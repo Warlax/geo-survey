@@ -29,7 +29,7 @@ $con = mysql_connect($dbhost,$username,$password);
        $saveuserquestionquery = "INSERT INTO userQuestion VALUES ('$userId','$questionId')";
        mysql_query($saveuserquestionquery);
 
-       $saveuseranswerquery = "INSERT INTO userAnswer VALUES ('$userId','$answerId')";
+       $saveuseranswerquery = "INSERT INTO userAnswer VALUES ('$answerId','$userId')";
        mysql_query($saveuseranswerquery);
 
 
