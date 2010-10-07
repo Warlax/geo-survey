@@ -89,9 +89,8 @@ function createQuestion()
   			  {
 	              resp = resp.substring(0,resp.indexOf('<!'));
 			  }
-	          alert(resp)
-                  callback_createQuestion(JSON.parse(resp)); //callback function is called to handle the resp text. 
-                  return 1; 
+              callback_createQuestion(JSON.parse(resp)); //callback function is called to handle the resp text. 
+              return 1; 
 	        },
 	      error: function(e){
 	        callback_createQuestion(0); //callback function need to be able to handle error also. 
@@ -283,7 +282,7 @@ var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 	if(questionObject == 0)
 	{
 		//TODO -- handle the error better...
-		alert('There was an error getting a random question.')
+		alert('There was an error getting a random question')
 		return
 	}
 	
@@ -352,7 +351,6 @@ function getRandomQuestion()
   			  {
 	              resp = resp.substring(0,resp.indexOf('<!'));
 			  }
-	          alert(resp)
               callback_getRandomQuestion(JSON.parse(resp)); //callback function is called to handle the resp text. 
               return 1; 
 	      },
