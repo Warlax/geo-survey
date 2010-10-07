@@ -78,8 +78,6 @@ function createQuestion()
 	statusElement.innerHTML = '<font color=\"#0000ff\">Submitting new question...</font>'
 	
 	var object = {"questionDesc":questionDesc, "answers":answers}
-	// TODO make the ajax call to store this in the database
-	// the response can be anything other than 0.  0 means error.
 
 	$.ajax({
 	      type: "POST",
@@ -100,11 +98,6 @@ function createQuestion()
 	        return 0;
 	      }
 	    });
-	
-	
-	//TODO -- this is a temporary call of the callback, remove this:
-	//var response = 1	
-	//callback_createQuestion(response)
 }
 
 // Warning: do not call this yourself.
@@ -258,35 +251,26 @@ function submitAnswer()
 		// create the JSON object:
 		var object = {"questionId":questionId, "answerId":answerId, "latitude":latitude, 
 		              "longitude":longitude, "age":age, "gender":gender}
-		// TODO make the ajax call to store this in the database
-		// the response object needs to be a JSON object as defined in the reportAnswerSubmitted function
-		
+
 		$.ajax({
 		      type: "POST",
 		      url: "../post/save_answer.php",  //address of the php code
 		      data: object, // parameter to pass onto the php code. 
 		      success: function(resp){ 
 	          // we have the response
-	              if(resp.indexOf('<!') != -1)
-  	         	  {
-	              resp = resp.substring(0,resp.indexOf('<!'));
-			  }
-	            alert(resp)
-                    callback_submitAnswer(JSON.parse(resp)); //callback function is called to handle the resp text. 
-                    return 1; 
-		        },
-		    error: function(e){
-		    callback_submitAnswer(0); //callback function need to be able to handle error also. 
-		    return 0;
-		      }
+              if(resp.indexOf('<!') != -1)
+ 	          {
+                  resp = resp.substring(0,resp.indexOf('<!'));
+    	      }
+              callback_submitAnswer(JSON.parse(resp)); //callback function is called to handle the resp text. 
+              return 1; 
+	        },
+		    error: function(e)
+		    {
+			    callback_submitAnswer(0); //callback function need to be able to handle error also. 
+			    return 0;
+	        }
 		    });
-		
-		
-		//TODO -- this is a temporary call of the callback, remove this:
-		var response = {"questionId":questionId, "question":questionDesc, "answers":[{"answerId":0, "answerDesc":"Yes", "locations":[{"latitude":50, "longitude":50}, {"latitude":51, "longitude":51}]},
-		                                                                             {"answerId":1, "answerDesc":"No", "locations":[{"latitude":52, "longitude":52}, {"latitude":53, "longitude":53}]},
-		                                                                             {"answerId":2, "answerDesc":"What's a burrito?", "locations":[{"latitude":54, "longitude":54}, {"latitude":55, "longitude":55}]}]}
-		callback_submitAnswer(response)
 	}
 }
 
@@ -298,7 +282,8 @@ var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 	// check for error:
 	if(questionObject == 0)
 	{
-		//TODO -- handle error...
+		//TODO -- handle the error better...
+		alert('There was an error getting a random question.')
 		return
 	}
 	
