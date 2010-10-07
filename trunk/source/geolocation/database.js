@@ -128,7 +128,7 @@ function removeCurrentQuestion()
 // Warning: do not call this yourself.
 // This function is called by the submitAnswer function once a user answer was submitted successfully to the server.
 // The response parameter is a JSON object like this:
-// {"questionId":questionId, "question":questionDesc, "answers":[{"answerId":answerId, 
+// {"questionId":questionId, "questionDesc":questionDesc, "answers":[{"answerId":answerId, 
 //                                                                "answerDesc":answerDesc, 
 //                                                                "locations":[{"latitude":latitude, 
 //                                                                              "longitude":longitude}
@@ -136,7 +136,7 @@ function removeCurrentQuestion()
 //                                                                ... ]}
 //
 // Example:
-// {"questionId":questionId, "question":questionDesc, "answers":[{"answerId":0, "answerDesc":"Yes", "locations":[{"latitude":50, "longitude":50}, {"latitude":51, "longitude":51}]},
+// {"questionId":questionId, "questionDesc":questionDesc, "answers":[{"answerId":0, "answerDesc":"Yes", "locations":[{"latitude":50, "longitude":50}, {"latitude":51, "longitude":51}]},
 //                                                                           {"answerId":1, "answerDesc":"No", "locations":[{"latitude":52, "longitude":52}, {"latitude":53, "longitude":53}]},
 //                                                                           {"answerId":2, "answerDesc":"What's a burrito?", "locations":[{"latitude":54, "longitude":54}, {"latitude":55, "longitude":55}]}]}
 var callback_submitAnswer = function reportAnswerSubmitted(response)
@@ -155,8 +155,8 @@ var callback_submitAnswer = function reportAnswerSubmitted(response)
 	statusElement.innerHTML = '<font color=\"#00ff00\">...your answer was submitted successfully.</font>'
 
 	var mapParams = {}	
-	var questionDesc = response["question"]
-	var answers = response["answers"]
+	var questionDesc = response.questionDesc
+	var answers = response.answers
 
 	// get the geolocation from the page, we'll use this to center the map:
 	var latElement = document.getElementById('latitude')
