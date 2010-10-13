@@ -105,7 +105,9 @@ function showMap(elementId, centerLat, centerLng, answerList)
 	map_placeholder.style.height = height + 'px'
     
     var map = createGoogleMap(elementId, centerLat, centerLng, 100)
-    
+    var bounds = new google.maps.LatLngBounds(); //new
+
+
     if(answerList == null)
     {
         addMarker(map, centerLat, centerLng);
@@ -125,8 +127,11 @@ function showMap(elementId, centerLat, centerLng, answerList)
                 var location = locations[i];
                 var lat = location["latitude"];
                 var lng = location["longitude"]; 
-           
+                var latlng = new google.maps.LatLng(lat, lng);
                 addMarker(map, lat, lng, x);
+                bounds.extend(latlng); //new
+                map.fitBounds(bounds); //new
+            //    if (map.getZoom() > 100) {map.setZoom(100);} // if not the first marker would not fit //new
             } 
         }
     }//end else
@@ -135,4 +140,4 @@ function showMap(elementId, centerLat, centerLng, answerList)
 	//notification.innerHTML = 'new map!'
 	//map_placeholder.appendChild(notification)
 	//*/
-}
+}		
