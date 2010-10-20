@@ -25,7 +25,6 @@ $.ajax({
       success: function(resp){
         // we have the response
         if(resp.indexOf("<!") >0){
-				alert(resp);
 	 			resp = resp.substring(0,resp.indexOf("<!"));
 		}
 
