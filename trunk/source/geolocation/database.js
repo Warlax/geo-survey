@@ -165,7 +165,7 @@ var callback_submitAnswer = function reportAnswerSubmitted(response)
 	var longitude = lngElement.value
 	
 	// show/update the map:
-	showMap('map', latitude, longitude, answers)
+	showMap('map', latitude, longitude, answers, questionDesc)
 	
 	// TODO -- optional: show a pie chart alongside the map...
 	
