@@ -1,3 +1,91 @@
+
+// Hides the map legend
+function hideMapLegend()
+{
+	var legendElement = document.getElementById('map_legend');
+	legendElement.style.display = "none";
+}
+
+// Shows the map legend
+function showMapLegend()
+{
+	var legendElement = document.getElementById('map_legend');
+	legendElement.style.visibility = "block";
+}
+
+function getAnswerColor(colorId)
+{
+	var colors =  {0:[255, 13, 9],
+				   1:[6, 21, 255],
+				   2:[28, 255, 51],
+				   3:[230, 248, 75],
+				   4:[109, 105, 175],
+				   5:[248, 155, 42],
+				   6:[237, 10, 143],
+				   7:[156, 156, 156],
+				   8:[236, 236, 236],
+				   9:[169, 129, 89]}
+				
+    return colors[colorId]
+}
+
+function RGBtoHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
+function toHex(N) {
+ if (N==null) return "00";
+ N=parseInt(N); if (N==0 || isNaN(N)) return "00";
+ N=Math.max(0,N); N=Math.min(N,255); N=Math.round(N);
+ return "0123456789ABCDEF".charAt((N-N%16)/16)
+      + "0123456789ABCDEF".charAt(N%16);
+}
+
+// Updates the map legend by linking an answer text to each color
+// The question parameter is a string
+// The answers object is a dictionary:
+//
+// {1:"answer1 text", 2:"answer2 text", ...}
+function updateMapLegend(question, answers)
+{
+	// Remove all map legend elements from its div
+	var legendElement = document.getElementById('map_legend')
+	if (legendElement.hasChildNodes())
+	{
+	    while(legendElement.childNodes.length >= 1)
+	    {
+	        legendElement.removeChild(legendElement.firstChild);       
+	    }
+	}
+	
+	// Add the question to the top of the legend:
+	var heading = document.createElement('h4')
+	heading.innerHTML = question
+	legendElement.appendChild(heading)
+	
+	// Add a list to contain the legend entries:
+	var list = document.createElement('ul')
+	list.setAttribute('id', 'map_legend_list')
+	legendElement.appendChild(list)
+	
+	// Iterate through the answers dictionary and add one child element to the list:
+	var keys = [];
+    for(var key in answers)
+    {
+        keys.push(key);
+    }
+	keys = keys.sort();
+	
+	for(var key in keys)
+	{
+		var value = answers[key]
+		var listItem = document.createElement('li')
+		var answerColorArray = getAnswerColor(key)
+		var answerHTMLColor = '#' + RGBtoHex(answerColorArray[0], answerColorArray[1], answerColorArray[2])
+		listItem.innerHTML = value.fontcolor(answerHTMLColor)
+		list.appendChild(listItem)
+	}
+	
+	// Add the show/hide link:
+}
+
 // Creates a google maps object in the html element with the given id.
 // The map will be centered at center_lat, center_lng and start with the
 // given initial zoom
@@ -86,9 +174,10 @@ function populateGoogleMap(map, locations)
 // -- locations, a list of dictionaries, one per geolocation of a person that answered using this answer, each having 2 name/value pairs:
 // -- -- latitude, a float describing the latitude of the position
 // -- -- longitude, a float describing the longitude of the position
-function showMap(elementId, centerLat, centerLng, answerList)
+//
+// The question parameter is a string of the question description
+function showMap(elementId, centerLat, centerLng, answerList, question)
 {
-	//TODO -- replace this code:
 	var map_placeholder = document.getElementById(elementId)
 	if (map_placeholder.hasChildNodes())
 	{
@@ -98,7 +187,7 @@ function showMap(elementId, centerLat, centerLng, answerList)
 	    }
 	}
 	
-	width = (document.width * 0.9) | 0
+	width = (document.width) | 0
 	height = (document.height * 0.5) | 0
 	
 	map_placeholder.style.width =  width + 'px'
@@ -116,11 +205,15 @@ function showMap(elementId, centerLat, centerLng, answerList)
     else
     { //show all previous answers to the map
     
+		// the {int:string} associative array to hold the answerId and answer to be used to update the map legend:
+		legend = {}
     
         for(var x = 0; x < answerList.length; x++)//go through each answer
         {
             var answer = answerList[x];
             var locations = answer["locations"];
+
+			legend[x] = answer["answerDesc"]
         
             for(var i = 0; i < locations.length; i++)
             {
@@ -134,6 +227,10 @@ function showMap(elementId, centerLat, centerLng, answerList)
             //    if (map.getZoom() > 100) {map.setZoom(100);} // if not the first marker would not fit //new
             } 
         }
+
+		// Update the legend:
+		updateMapLegend(question, legend)
+
     }//end else
     
 	//var notification = document.createElement('p')
