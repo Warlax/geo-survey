@@ -45,15 +45,19 @@ function callbackReportLocation(latitude, longitude, accuracy)
 	latElement.value = latitude
 	lngElement.value = longitude
 	
-	//TODO -- get gender and age from user
+	// TODO -- get gender and age from user via popup
+	// TODO -- validation and verification of age, zip, and gender
 	var age = 26
 	var gender = "Male"
+	var zip = 90210
 	
 	// populate the hidden latitude/longitude inputs of the form:
 	var genElement = document.getElementById('gender')
 	var ageElement = document.getElementById('age')
+	var zipElement = document.getElementById('zip')
 	genElement.value = gender
 	ageElement.value = age
+	zipElement = zip
 	
 	// get a random question from the database:
 	getRandomQuestion()
