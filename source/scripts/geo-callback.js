@@ -57,7 +57,7 @@ function callbackReportLocation(latitude, longitude, accuracy)
 	var zipElement = document.getElementById('zip')
 	genElement.value = gender
 	ageElement.value = age
-	zipElement = zip
+	zipElement.value = zip
 	
 	// get a random question from the database:
 	getRandomQuestion()
