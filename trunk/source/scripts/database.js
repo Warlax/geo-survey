@@ -185,6 +185,7 @@ function submitAnswer()
 	var latElement = document.getElementById('latitude')
 	var lngElement = document.getElementById('longitude')
 	var genElement = document.getElementById('gender')
+	var zipElement = document.getElementById('zip')
 	var ageElement = document.getElementById('age')
 	var qIdElement = document.getElementById('questionId')
 	var answerList = document.getElementById('answer list')
@@ -194,6 +195,7 @@ function submitAnswer()
 	var longitude = lngElement.value
 	var gender = genElement.value
 	var age = ageElement.value
+	var zip = zipElement.value
 	var questionId = qIdElement.value
 	var listItems = answerList.childNodes
 	var answerId = null
@@ -249,7 +251,7 @@ function submitAnswer()
 
 		// create the JSON object:
 		var object = {"questionId":questionId, "answerId":answerId, "latitude":latitude, 
-		              "longitude":longitude, "age":age, "gender":gender}
+		              "longitude":longitude, "age":age, "gender":gender, "zip":zip}
 
 		$.ajax({
 		      type: "POST",
