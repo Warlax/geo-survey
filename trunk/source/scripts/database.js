@@ -315,6 +315,7 @@ var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 		labelFor.innerHTML = answerDesc
 		var option = document.createElement('input')
 		option.setAttribute('id', answerId)
+		option.setAttribute('class', 'answer_radio_button')
 		option.setAttribute('type', 'radio')
 		option.setAttribute('name', 'answer')
 		option.setAttribute('value', answerId)

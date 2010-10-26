@@ -67,7 +67,7 @@ function callbackReportLocation(latitude, longitude, accuracy)
 function callbackReportError(errorCode, errorText, errorDetails)
 {
 	var ni = document.getElementById('status')
-	ni.innerHTML = '<font color=\'red\'>' + errorText + '</font><b><i>' + errorDetails + '</i></b><br/>Error Code: ' + errorCode
+	ni.innerHTML = '<font color=\'red\'>' + errorText + '</font><br/>Error Code: ' + errorCode
 
 	/*
 	// first, remove the element added by callbackGettingLocation...
