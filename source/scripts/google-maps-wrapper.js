@@ -4,13 +4,43 @@ function hideMapLegend()
 {
 	var legendElement = document.getElementById('map_legend');
 	legendElement.style.display = "none";
+	
+	var showLegendElement = document.getElementById('show_legend')
+	showLegendElement.value = 'false'
+	
+	// Add the show/hide link:
+	var toggleLegendElement = document.getElementById('toggle_legend_link')
+	toggleLegendElement.setAttribute('href', '#')
+	toggleLegendElement.setAttribute('onClick', 'showMapLegend()')
+	toggleLegendElement.innerHTML = '(Show map legend)'
 }
 
 // Shows the map legend
 function showMapLegend()
 {
-	var legendElement = document.getElementById('map_legend');
-	legendElement.style.visibility = "block";
+	var id = 'map_legend'
+	var legendElement = document.getElementById(id);
+	
+	if (document.getElementById) { // DOM3 = IE5, NS6
+			legendElement.style.display = 'block';
+		}
+		else {
+			if (document.layers) { // Netscape 4
+				document.id.display = 'block';
+			}
+			else { // IE 4
+				document.all.id.style.display = 'block';
+			}
+		}
+	
+	var showLegendElement = document.getElementById('show_legend')
+	showLegendElement.value = 'true'
+	
+	// Add the show/hide link:
+	var toggleLegendElement = document.getElementById('toggle_legend_link')
+	toggleLegendElement.setAttribute('href', '#')
+	toggleLegendElement.setAttribute('onClick', 'hideMapLegend()')
+	toggleLegendElement.innerHTML = '(Hide map legend)'
 }
 
 function getAnswerColor(colorId)
@@ -45,19 +75,27 @@ function toHex(N) {
 // {1:"answer1 text", 2:"answer2 text", ...}
 function updateMapLegend(question, answers)
 {
+	// Remember if we were hiding or showing the map:
+	var showLegendElement = document.getElementById('show_legend')
+	var showLegend = showLegendElement.value
+	
 	// Remove all map legend elements from its div
-	var legendElement = document.getElementById('map_legend')
-	if (legendElement.hasChildNodes())
+	var legendElementWrapper = document.getElementById('map_legend_wrapper')
+	if (legendElementWrapper.hasChildNodes())
 	{
-	    while(legendElement.childNodes.length >= 1)
+	    while(legendElementWrapper.childNodes.length >= 1)
 	    {
-	        legendElement.removeChild(legendElement.firstChild);       
+	        legendElementWrapper.removeChild(legendElementWrapper.firstChild);       
 	    }
 	}
 	
+	var legendElement = document.createElement('div')
+	legendElement.setAttribute('id', 'map_legend')
+	legendElementWrapper.appendChild(legendElement)
+	
 	// Add the question to the top of the legend:
 	var heading = document.createElement('h4')
-	heading.innerHTML = question
+	heading.innerHTML = 'Showing map for question: "' + question + '"'
 	legendElement.appendChild(heading)
 	
 	// Add a list to contain the legend entries:
@@ -83,7 +121,39 @@ function updateMapLegend(question, answers)
 		list.appendChild(listItem)
 	}
 	
+	// Add the hidden input field and store within it the current legend visibility boolean:
+	showLegendElement = document.createElement('input')
+	showLegendElement.setAttribute('id', 'show_legend')
+	showLegendElement.setAttribute('type', 'hidden')
+	showLegendElement.setAttribute('value', showLegend)
+	legendElement.appendChild(showLegendElement)
+		
 	// Add the show/hide link:
+	var toggleLegendElement = document.createElement('a')
+	toggleLegendElement.setAttribute('href', '#')
+	toggleLegendElement.setAttribute('id', 'toggle_legend_link')
+	if(showLegend == 'true')
+	{
+		toggleLegendElement.setAttribute('onClick', 'hideMapLegend()')
+		toggleLegendElement.innerHTML = '(Hide map legend)'
+	}
+	else
+	{
+		toggleLegendElement.setAttribute('onClick', 'showMapLegend()')
+		toggleLegendElement.innerHTML = '(Show map legend)'
+	}
+	legendElementWrapper = document.getElementById('map_legend_wrapper')
+	legendElementWrapper.appendChild(toggleLegendElement)
+
+	// Toggle the visibility according to show/hide:
+	if(showLegend == 'true')
+	{
+		showMapLegend()
+	}
+	else
+	{
+		hideMapLegend()
+	}
 }
 
 // Creates a google maps object in the html element with the given id.
