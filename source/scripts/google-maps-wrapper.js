@@ -256,12 +256,16 @@ function showMap(elementId, centerLat, centerLng, answerList, question)
 	        map_placeholder.removeChild(map_placeholder.firstChild);       
 	    }
 	}
+
+	var w = document.width * 0.9
+	var h = document.height * 0.5
+	width = (w) | 0
+	height = (h) | 0
+	left = (document.width - w)/2
 	
-	width = (document.width) | 0
-	height = (document.height * 0.5) | 0
-	
-	map_placeholder.style.width =  width + 'px'
+	map_placeholder.style.width = width + 'px'
 	map_placeholder.style.height = height + 'px'
+	map_placeholder.style.left = left + 'px'
     
     var map = createGoogleMap(elementId, centerLat, centerLng, 100)
     var bounds = new google.maps.LatLngBounds(); //new
