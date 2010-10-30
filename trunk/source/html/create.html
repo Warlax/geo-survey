@@ -11,9 +11,14 @@
 	<script type="text/javascript" src="../scripts/database.js"></script>
 	<script type="text/javascript" src="../scripts/geolocation.js"></script>
 	<script type="text/javascript" src="../scripts/geo-callback.js"></script>
+	<script type="text/javascript" src="../scripts/search.js"></script>
 </head>
 <body>
 	<div class="header">
+		<form id="searchForm">
+			Search for a question: <input type="text" id="searchField" />
+			<input type="submit" id="searchButton" value="Search" onClick="startSearch(); return false;" />
+		</form>
 		<h2>GeoHive -- create a question</h2>
 	</div>
 	<div id="status">
