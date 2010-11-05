@@ -1,0 +1,62 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+body {
+	background-color: #FFFFFF;
+	}
+
+#content{
+	background-color: #FFFFFF;
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	border: thin solid #000000;
+}
+
+#header{
+	azimuth:center;
+	background-color: #FFFFFF;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	border: medium outset #000000;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: auto;
+}
+
+#searchForm{
+	azimuth:far-right;
+	background-color: #FFFFFF;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.paginationLink {
+	padding-left: 15px;
+}
+
+#map_legend_wrapper{
+	clear: both;
+}
+
+#map_legend_list {
+	list-style-type: none;
+}
+
+
+#map{
+	padding-bottom: 2px;
+	height: auto;
+	width: auto;
+}
+
+#logo{
+	float: left;
+}
+
+#title{
+	padding-right: 92px;
+
+}
