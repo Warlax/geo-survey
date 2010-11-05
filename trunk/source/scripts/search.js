@@ -126,3 +126,51 @@ function performSearch()
 	var fake = [{"questionId":0, "questionDesc":"Question1"},{"questionId":1, "questionDesc":"Question2"}]
 	callback_searchResults(fake, query, page, pageSize, 3)
 }
+
+// Displays the question:
+// Reports a JSON object containing a question to the web page, it contains:
+// the question ID, the question itself, and a list of all possible answers as answerID, answer text pairs.
+// the IDs will be used to store the question and answer in the database.
+var displayQuestion_callback = function callbackDisplayQuestion(questionObject)
+{
+	// check for error:
+	if(questionObject == 0)
+	{
+		// TODO -- do something
+		return
+	}
+	
+	var contentDiv = document.getElementById("content")
+	
+	// sample: {"questionId":"id", "question":"what is blah blah", "answers":[{"answerId":1, "answerDesc":"it is a"}, {"answerId":2, "answerDesc":"it is b"}]}
+	var questionId = questionObject["questionId"]
+	var questionText = questionObject["questionDesc"]
+	var answerList = questionObject["answers"]
+	
+	var questionElement = document.createElement("question")
+	questionElement.innerHTML = questionText
+	contentDiv.appendChild(questionElement)
+	
+	// Create a Google map:
+	showMap('map', 0, 0, answerList, questionText)
+		
+	var unorderedList = document.createElement('ul')
+	unorderedList.setAttribute('id', 'answer list')
+	for (var answer in answerList)
+	{
+		var answerId = answerList[answer].answerId
+		var answerDesc = answerList[answer].answerDesc
+		var listItem = document.createElement('li');
+		listItem.innerHTML = answerDesc
+		unorderedList.appendChild(listItem);
+	}
+	contentDiv.appendChild(unorderedList)
+}
+
+// Fetches a question to display:
+function displayQuestion()
+{
+	var params = getParams();
+	var questionId = parseInt(params["questionId"])
+	getQuestion(displayQuestion_callback, questionId)
+}
