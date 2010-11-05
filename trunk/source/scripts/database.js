@@ -282,11 +282,16 @@ function submitAnswer()
 // the IDs will be used to store the question and answer in the database.
 var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 {
+	// Clear the status:
+	var statusElement = document.getElementById('status')
+	statusElement.innerHTML = ''
+
 	// check for error:
 	if(questionObject == 0)
 	{
-		//TODO -- handle the error better...
-		alert('There was an error getting a random question')
+		// Give a status:
+		var statusElement = document.getElementById('status')
+		statusElement.innerHTML = '<font color=\"#ff0000\">There was an error getting a random question, try again later</font>'
 		return
 	}
 	
@@ -346,5 +351,9 @@ var callback_getRandomQuestion = function reportRandomQuestion(questionObject)
 // When done, it will call reportRandomQuestion with the JSON object.
 function getRandomQuestion()
 {
+	// Give a status:
+	var statusElement = document.getElementById('status')
+	statusElement.innerHTML = '<font color=\"#0000ff\">Getting a question...</font>'
+
 	getQuestion(callback_getRandomQuestion, 0)
 }

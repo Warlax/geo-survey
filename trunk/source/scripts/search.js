@@ -11,7 +11,7 @@ function startSearch()
 	// remove everything after the last /:
 	currentLocation = currentLocation.substring(0, currentLocation.lastIndexOf("/"));
 	// add the question.html suffix:
-	window.location = currentLocation + "/search.html?search=" + query + "&page=0&pageSize=20"
+	window.location = currentLocation + "/search.html?search=" + query + "&page=1&pageSize=20"
 }
 
 // Returns the URL params from the URL (? followed by name=value&... pairs)
@@ -32,13 +32,14 @@ function getParams()
 }
 
 // Sets up the page to display the question passed in the question object.
+// query is the original query used
 // page is a parameter telling us the number of the page of the results we are currently on, page numbers start at 0
 // pageSize is a parameter telling us how many entries are on each page
 // pages tells us how many total pages there are (total number of questions / pageSize)
 // The result object is a list of:
 // -- questionId
 // -- questionDesc
-var callback_searchResults = function seachResultsCallback(result, page, pageSize, pages)
+var callback_searchResults = function seachResultsCallback(result, query, page, pageSize, pages)
 {
 	// Clear the content div:
 	var contentDiv = document.getElementById('content')
@@ -68,7 +69,45 @@ var callback_searchResults = function seachResultsCallback(result, page, pageSiz
 		unorderedList.appendChild(listItem)
 	}
 	
-	//TODO -- add pagination links...
+	// Add pagination links:
+	// First, add a div:
+	var paginationDiv = document.createElement('div')
+	paginationDiv.setAttribute('id', 'pagination')
+	contentDiv.appendChild(paginationDiv)
+	
+	// Next, add the 5 elements like this: first page -- prev page -- current page / total pages -- next page -- last page
+
+	if(page - 1 > 0)
+	{
+		var firstPageLink = document.createElement('a')
+		firstPageLink.setAttribute('class', 'paginationLink')
+		firstPageLink.innerHTML = '<a href="search.html?search=' + query + '&page=' + 1 + '&pageSize=' + pageSize + '">First Page</a>'
+		paginationDiv.appendChild(firstPageLink)
+
+		var prevPageLink = document.createElement('a')
+		prevPageLink.setAttribute('class', 'paginationLink')
+		prevPageLink.innerHTML = '<a href="search.html?search=' + query + '&page=' + (page - 1) + '&pageSize=' + pageSize + '">Prev Page</a>'
+		paginationDiv.appendChild(prevPageLink)
+	}
+	
+	var curPageLink = document.createElement('a')
+	curPageLink.setAttribute('class', 'paginationLink')
+	curPageLink.href = 'search.html?search=' + query + '&page=' + page + '&pageSize=' + pageSize
+	curPageLink.innerHTML = 'Page ' + page + '/' + pages
+	paginationDiv.appendChild(curPageLink)
+
+	if(page + 1 <= pages)
+	{
+		var nextPageLink = document.createElement('a')
+		nextPageLink.setAttribute('class', 'paginationLink')
+		nextPageLink.innerHTML = '<a href="search.html?search=' + query + '&page=' + (page + 1) + '&pageSize=' + pageSize + '">Next Page</a>'
+		paginationDiv.appendChild(nextPageLink)
+
+		var lastPageLink = document.createElement('a')
+		lastPageLink.setAttribute('class', 'paginationLink')
+		lastPageLink.innerHTML = '<a href="search.html?search=' + query + '&page=' + pages + '&pageSize=' + pageSize + '">Last Page</a>'
+		paginationDiv.appendChild(lastPageLink)
+	}
 }
 
 // Actually performs the search based on the parameters in the URL.
@@ -76,10 +115,10 @@ function performSearch()
 {
 	var params = getParams();
 	var query = params["search"]
-	var page = params["page"]
-	var pageSize = params["pageSize"]
+	var page = parseInt(params["page"])
+	var pageSize = parseInt(params["pageSize"])
 	
 	//TODO -- really perform a search according to the said query, offset, and amount...
 	var fake = [{"questionId":0, "questionDesc":"Question1"},{"questionId":1, "questionDesc":"Question2"}]
-	callback_searchResults(fake)
+	callback_searchResults(fake, query, page, pageSize, 3)
 }
