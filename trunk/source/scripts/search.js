@@ -33,7 +33,7 @@ function getParams()
 
 // Sets up the page to display the question passed in the question object.
 // query is the original query used
-// page is a parameter telling us the number of the page of the results we are currently on, page numbers start at 0
+// page is a parameter telling us the number of the page of the results we are currently on, page numbers start at 1
 // pageSize is a parameter telling us how many entries are on each page
 // pages tells us how many total pages there are (total number of questions / pageSize)
 // The result object is a list of:
@@ -81,12 +81,14 @@ var callback_searchResults = function seachResultsCallback(result, query, page, 
 	{
 		var firstPageLink = document.createElement('a')
 		firstPageLink.setAttribute('class', 'paginationLink')
-		firstPageLink.innerHTML = '<a href="search.html?search=' + query + '&page=' + 1 + '&pageSize=' + pageSize + '">First Page</a>'
+		firstPageLink.href = 'search.html?search=' + query + '&page=1&pageSize=' + pageSize
+		firstPageLink.innerHTML = 'First page'
 		paginationDiv.appendChild(firstPageLink)
 
 		var prevPageLink = document.createElement('a')
 		prevPageLink.setAttribute('class', 'paginationLink')
-		prevPageLink.innerHTML = '<a href="search.html?search=' + query + '&page=' + (page - 1) + '&pageSize=' + pageSize + '">Prev Page</a>'
+		prevPageLink.href = 'search.html?search=' + query + '&page=' + (page - 1) + '&pageSize=' + pageSize
+		prevPageLink.innerHTML = 'Previous page'
 		paginationDiv.appendChild(prevPageLink)
 	}
 	
@@ -100,12 +102,14 @@ var callback_searchResults = function seachResultsCallback(result, query, page, 
 	{
 		var nextPageLink = document.createElement('a')
 		nextPageLink.setAttribute('class', 'paginationLink')
-		nextPageLink.innerHTML = '<a href="search.html?search=' + query + '&page=' + (page + 1) + '&pageSize=' + pageSize + '">Next Page</a>'
+		nextPageLink.href = 'search.html?search=' + query + '&page=' + (page + 1) + '&pageSize=' + pageSize
+		nextPageLink.innerHTML = 'Next page'
 		paginationDiv.appendChild(nextPageLink)
 
 		var lastPageLink = document.createElement('a')
 		lastPageLink.setAttribute('class', 'paginationLink')
-		lastPageLink.innerHTML = '<a href="search.html?search=' + query + '&page=' + pages + '&pageSize=' + pageSize + '">Last Page</a>'
+		nextPageLink.href = 'search.html?search=' + query + '&page=' + pages + '&pageSize=' + pageSize
+		nextPageLink.innerHTML = 'Last page'
 		paginationDiv.appendChild(lastPageLink)
 	}
 }
