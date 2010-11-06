@@ -5,6 +5,7 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<title>GeoHive</title>
 	<link rel="stylesheet" href="../style/mobile.css" type="text/css" media="handheld" />
+<link rel="stylesheet" href="style/default.css" type="text/css"/>
 	<script type="text/javascript" src="../scripts/modernizr-1.5.min.js"></script>
 	<script type="text/javascript" src="../scripts/google-maps-wrapper.js"></script>
 	<script type="text/javascript" src="../scripts/jquery.js"></script>
@@ -12,23 +13,26 @@
 	<script type="text/javascript" src="../scripts/geolocation.js"></script>
 	<script type="text/javascript" src="../scripts/geo-callback.js"></script>
 	<script type="text/javascript" src="../scripts/search.js"></script>
+    <link href="../style/default.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div class="header">
-		<div id="logo">
+	<div class="header" id="header">
+  <div id="logo">
 			<img src="../icons/icon.jpg" width="92" height="92" />
 		</div>
 		<form id="searchForm">
 			Search for a question: <input type="text" id="searchField" />
 			<input type="submit" id="searchButton" value="Search" onClick="startSearch(); return false;" />
 		</form>
-		<h2>GeoHive -- create a question</h2>
+		<div id="title">
+		  <h2>GeoHive -- create a question</h2>
+		</div>
 	</div>
-	<div id="status">
+<div id="status">
 		<!-- place holder for create/error messages-->
 	</div>
-	<div class="content">
-		<div id="form">
+	<div class="content" id="content">
+  <div id="form">
 			<p class="field name">Question: <input id="questionDesc" type="text"/></p>
 		    <p class="field description">Try to be clear and concise, this is the question people will see.</p>
 		    <p class="field description">Now, create up to 10 possible answers.  Empty answers will not be used.</p>
@@ -47,9 +51,9 @@
 			<input type="submit" value="Create Question" onClick="createQuestion()"/>
 		</div>
 	</div>
-	<div class="footer">
+<div class="footer" id="footer">
 		<a href="answer.html">Answer random questions</a>
-		<p>Copyright GeoHive&copy;  2010</p>
+  <p>Copyright GeoHive&copy;  2010</p>
 	</div>
 </body>
 </html>

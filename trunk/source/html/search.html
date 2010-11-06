@@ -5,6 +5,7 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<title>GeoHive</title>
 	<link rel="stylesheet" href="../style/mobile.css" type="text/css" media="handheld" />
+    <link rel="stylesheet" href="../style/default.css" type="text/css"/>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 	<script type="text/javascript" src="../scripts/google-maps-wrapper.js"></script>
 	<script type="text/javascript" src="../scripts/jquery.js"></script>
@@ -13,24 +14,24 @@
 	<script type="text/javascript" src="../scripts/search.js"></script>
 </head>
 <body onLoad="performSearch();">
-	<div class="header">
-		<div id="logo">
+	<div class="header" id="header">
+  <div id="logo">
 			<img src="../icons/icon.jpg" width="92" height="92" />
 		</div>
 		<form id="searchForm">
 			Search for a question: <input type="text" id="searchField" />
 			<input type="submit" id="searchButton" value="Search" onClick="startSearch(); return false;" />
 		</form>
-		<h2>GeoHive -- question search</h2>
+		<div id="title"><h2>GeoHive -- question search</h2></div>
 	</div>
-	<div id="content">
+<div id="content">
 	</div>
 	<div class="clear">
 	</div>
-	<div class="footer">
+	<div class="footer" id="footer">
 		<a href="create.html">Create a question</a>
 		<a href="answer.html">Answer random questions</a>
-		<p>Copyright GeoHive&copy;  2010</p>
+	  <p>Copyright GeoHive&copy;  2010</p>
 	</div>
 </body>
 </html>
