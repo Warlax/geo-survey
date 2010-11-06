@@ -172,5 +172,5 @@ function displayQuestion()
 {
 	var params = getParams();
 	var questionId = parseInt(params["questionId"])
-	getQuestion(displayQuestion_callback, questionId)
+	getAnswers(displayQuestion_callback, questionId)
 }
