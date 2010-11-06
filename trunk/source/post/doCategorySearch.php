@@ -5,15 +5,39 @@
 #require_once 'db_config.inc.php';
 require_once 'post.php';
 $queryString = $_POST['queryString'];
+$page        = $_POST['page'];
+$pageSize    = $_POST['pageSize'];
+
+$from = (($page-1)*$pageSize) +1;
+$to   = $pageSize*$page;
+
+
 
 #------------------------------------------------------#
 #Start Sql statement, no where yet.
+
+$sql = "Select count(*) from Question q
+	JOIN questionCat qc ON
+	q.questionId = qc.questionID
+	JOIN category c ON
+	qc.categoryId = c.categoryId where categoryDesc like '%$queryString%' ";
+
+$res = runSQL($sql);
+$value = array();
+$value[page]= $page;
+$value[from]= $from;
+$value[to]= $to;
+$value[pageSize]=$pageSize;
+
+$pages = mysql_fetch_row($res);
+$value[pages]= ceil( $pages[0]/$pageSize);
 
 $sql = "Select q.questionId, q.questionDesc from Question q
 	JOIN questionCat qc ON
 	q.questionId = qc.questionID
 	JOIN category c ON
-	qc.categoryId = c.categoryId where categoryDesc like '%$queryString%' ";
+	qc.categoryId = c.categoryId where categoryDesc like '%$queryString%' 
+	LIMIT $from,$to";
 
 
 $res = runSQL($sql);
@@ -29,7 +53,7 @@ header("Cache-Control: no-cache, must-revalidate" );
 header("Pragma: no-cache" );
 
 
-
-echo json_encode($result);
+$value[result]=$result;
+echo json_encode($value);
 
 ?>
