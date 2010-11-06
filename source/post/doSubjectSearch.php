@@ -5,12 +5,26 @@
 #require_once 'db_config.inc.php';
 require_once 'post.php';
 $queryString = $_POST['queryString'];
+$page        = $_POST['page'];
+$pageSize    = $_POST['pageSize'];
 
+$from = (($page-1)*$pageSize) +1;
+$to   = $pageSize*$page;
 #------------------------------------------------------#
 #Start Sql statement, no where yet.
+$sql = "Select count(*) from Question where questionDesc like '%$queryString%' ";
 
+$res = runSQL($sql);
+$value = array();
+$value[page]= $page;
+$value[from]= $from;
+$value[to]= $to;
+$value[pageSize]=$pageSize;
+
+$pages = mysql_fetch_row($res);
+$value[pages]= ceil( $pages[0]/$pageSize);
 $sql = "Select questionId, questionDesc from Question where questionDesc like '%$queryString%' ";
-
+	$sql .= " Limit $from,$to ";
 
 $res = runSQL($sql);
 $result = array();
@@ -24,8 +38,7 @@ header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
 header("Cache-Control: no-cache, must-revalidate" );
 header("Pragma: no-cache" );
 
-
-
-echo json_encode($result);
+$value[result]=$result;
+echo json_encode($value);
 
 ?>
