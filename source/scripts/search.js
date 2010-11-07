@@ -41,6 +41,13 @@ function getParams()
 // -- questionDesc
 var callback_searchResults = function seachResultsCallback(result, query, page, pageSize, pages)
 {
+	// handle error:
+	if(result == 0)
+	{
+		//TODO -- handle error better
+		return
+	}
+	
 	// Clear the content div:
 	var contentDiv = document.getElementById('content')
 	if (contentDiv.hasChildNodes())
@@ -122,9 +129,29 @@ function performSearch()
 	var page = parseInt(params["page"])
 	var pageSize = parseInt(params["pageSize"])
 	
-	//TODO -- really perform a search according to the said query, offset, and amount...
-	var fake = [{"questionId":0, "questionDesc":"Question1"},{"questionId":1, "questionDesc":"Question2"}]
-	callback_searchResults(fake, query, page, pageSize, 3)
+	var object = {}
+	
+	$.ajax({
+	      type: "POST",
+	      url: "../post/doSubjectSearch.php",  //address of the php code
+	      data: object, // parameter to pass onto the php code. 
+	      success: function(resp){ 
+          // we have the response
+          if(resp.indexOf('<!') != -1)
+          {
+              resp = resp.substring(0,resp.indexOf('<!'));
+	      }
+
+          doSubjectSearch(callback_searchResults, query, page, pageSize)
+
+          return 1; 
+        },
+	    error: function(e)
+	    {
+		    callback_searchResults(0, 0, 0, 0); //callback function need to be able to handle error also. 
+		    return 0;
+        }
+	    });
 }
 
 // Displays the question:
