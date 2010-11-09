@@ -39,7 +39,7 @@ function getParams()
 // The result object is a list of:
 // -- questionId
 // -- questionDesc
-var callback_searchResults = function seachResultsCallback(result, query, page, pageSize, pages)
+var callback_searchResults = function seachResultsCallback(result)
 {
 	// handle error:
 	if(result == 0)
@@ -48,6 +48,11 @@ var callback_searchResults = function seachResultsCallback(result, query, page, 
 		return
 	}
 	
+	page = parseInt(result.page)
+	pageSize = parseInt(result.pageSize)
+	pages = result.pages
+	result = result.result
+
 	// Clear the content div:
 	var contentDiv = document.getElementById('content')
 	if (contentDiv.hasChildNodes())
@@ -58,66 +63,77 @@ var callback_searchResults = function seachResultsCallback(result, query, page, 
 	    }
 	}
 	
-	// Create and add an unordered list to the content div:
-	var unorderedList = document.createElement('ul')
-	unorderedList.setAttribute('id', 'search_results_list')
-	contentDiv.appendChild(unorderedList)	
-	
-	// Create and add one list item per question in the result set:
-	for(i = 0; i < result.length; i++)
+	if(result.length == 0)
 	{
-		var question = result[i]
-		var questionId = question.questionId
-		var questionDesc = question.questionDesc
+		var p = document.createElement('p')
+		p.innerHTML = 'Your search query returned no results.'
+		contentDiv.appendChild(p)
+	}
+	else
+	{
+		// Create and add an unordered list to the content div:
+		var unorderedList = document.createElement('ul')
+		unorderedList.setAttribute('id', 'search_results_list')
+		contentDiv.appendChild(unorderedList)	
+		// Create and add one list item per question in the result set:
+		for(i = 0; i < result.length; i++)
+		{
+			var question = result[i]
+			var questionId = question.questionId
+			var questionDesc = question.questionDesc
 		
-		var listItem = document.createElement('li')
-		listItem.setAttribute('class', 'search_results_entry')
-		listItem.innerHTML = '<a href="question.html?questionId=' + questionId + '">' + questionDesc + '</a>'
-		unorderedList.appendChild(listItem)
-	}
+			var listItem = document.createElement('li')
+			listItem.setAttribute('class', 'search_results_entry')
+			listItem.innerHTML = '<a href="question.html?questionId=' + questionId + '">' + questionDesc + '</a>'
+			unorderedList.appendChild(listItem)
+		}
 	
-	// Add pagination links:
-	// First, add a div:
-	var paginationDiv = document.createElement('div')
-	paginationDiv.setAttribute('id', 'pagination')
-	contentDiv.appendChild(paginationDiv)
+		// Add pagination links:
+		// First, add a div:
+		var paginationDiv = document.createElement('div')
+		paginationDiv.setAttribute('id', 'pagination')
+		contentDiv.appendChild(paginationDiv)
 	
-	// Next, add the 5 elements like this: first page -- prev page -- current page / total pages -- next page -- last page
+		// Next, add the 5 elements like this: first page -- prev page -- current page / total pages -- next page -- last page
 
-	if(page - 1 > 0)
-	{
-		var firstPageLink = document.createElement('a')
-		firstPageLink.setAttribute('class', 'paginationLink')
-		firstPageLink.href = 'search.html?search=' + query + '&page=1&pageSize=' + pageSize
-		firstPageLink.innerHTML = 'First page'
-		paginationDiv.appendChild(firstPageLink)
+		var params = getParams();
+		var query = params["search"]
 
-		var prevPageLink = document.createElement('a')
-		prevPageLink.setAttribute('class', 'paginationLink')
-		prevPageLink.href = 'search.html?search=' + query + '&page=' + (page - 1) + '&pageSize=' + pageSize
-		prevPageLink.innerHTML = 'Previous page'
-		paginationDiv.appendChild(prevPageLink)
-	}
+		if(page - 1 > 0)
+		{
+			var firstPageLink = document.createElement('a')
+			firstPageLink.setAttribute('class', 'paginationLink')
+			firstPageLink.href = 'search.html?search=' + query + '&page=1&pageSize=' + pageSize
+			firstPageLink.innerHTML = 'First page'
+			paginationDiv.appendChild(firstPageLink)
+
+			var prevPageLink = document.createElement('a')
+			prevPageLink.setAttribute('class', 'paginationLink')
+			prevPageLink.href = 'search.html?search=' + query + '&page=' + (page - 1) + '&pageSize=' + pageSize
+			prevPageLink.innerHTML = 'Previous page'
+			paginationDiv.appendChild(prevPageLink)
+		}
 	
-	var curPageLink = document.createElement('a')
-	curPageLink.setAttribute('class', 'paginationLink')
-	curPageLink.href = 'search.html?search=' + query + '&page=' + page + '&pageSize=' + pageSize
-	curPageLink.innerHTML = 'Page ' + page + '/' + pages
-	paginationDiv.appendChild(curPageLink)
+		var curPageLink = document.createElement('a')
+		curPageLink.setAttribute('class', 'paginationLink')
+		curPageLink.href = 'search.html?search=' + query + '&page=' + page + '&pageSize=' + pageSize
+		curPageLink.innerHTML = 'Page ' + page + '/' + pages
+		paginationDiv.appendChild(curPageLink)
 
-	if(page + 1 <= pages)
-	{
-		var nextPageLink = document.createElement('a')
-		nextPageLink.setAttribute('class', 'paginationLink')
-		nextPageLink.href = 'search.html?search=' + query + '&page=' + (page + 1) + '&pageSize=' + pageSize
-		nextPageLink.innerHTML = 'Next page'
-		paginationDiv.appendChild(nextPageLink)
+		if(page + 1 <= pages)
+		{
+			var nextPageLink = document.createElement('a')
+			nextPageLink.setAttribute('class', 'paginationLink')
+			nextPageLink.href = 'search.html?search=' + query + '&page=' + (page + 1) + '&pageSize=' + pageSize
+			nextPageLink.innerHTML = 'Next page'
+			paginationDiv.appendChild(nextPageLink)
 
-		var lastPageLink = document.createElement('a')
-		lastPageLink.setAttribute('class', 'paginationLink')
-		nextPageLink.href = 'search.html?search=' + query + '&page=' + pages + '&pageSize=' + pageSize
-		nextPageLink.innerHTML = 'Last page'
-		paginationDiv.appendChild(lastPageLink)
+			var lastPageLink = document.createElement('a')
+			lastPageLink.setAttribute('class', 'paginationLink')
+			lastPageLink.href = 'search.html?search=' + query + '&page=' + pages + '&pageSize=' + pageSize
+			lastPageLink.innerHTML = 'Last page'
+			paginationDiv.appendChild(lastPageLink)
+		}
 	}
 }
 
@@ -174,13 +190,17 @@ var displayQuestion_callback = function callbackDisplayQuestion(questionObject)
 	var questionText = questionObject["questionDesc"]
 	var answerList = questionObject["answers"]
 	
+	/*
 	var questionElement = document.createElement("question")
 	questionElement.innerHTML = questionText
 	contentDiv.appendChild(questionElement)
+	//*/
 	
 	// Create a Google map:
 	showMap('map', 0, 0, answerList, questionText)
+	showMapLegend()
 		
+	/*
 	var unorderedList = document.createElement('ul')
 	unorderedList.setAttribute('id', 'answer list')
 	for (var answer in answerList)
@@ -192,6 +212,7 @@ var displayQuestion_callback = function callbackDisplayQuestion(questionObject)
 		unorderedList.appendChild(listItem);
 	}
 	contentDiv.appendChild(unorderedList)
+    //*/
 }
 
 // Fetches a question to display:
