@@ -8,7 +8,7 @@ $queryString = $_POST['queryString'];
 $page        = $_POST['page'];
 $pageSize    = $_POST['pageSize'];
 
-$from = (($page-1)*$pageSize) +1;
+$from = (($page-1)*$pageSize);
 $to   = $pageSize*$page;
 
 
