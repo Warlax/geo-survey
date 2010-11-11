@@ -24,7 +24,7 @@ $value[pageSize]=$pageSize;
 $pages = mysql_fetch_row($res);
 $value[pages]= ceil( $pages[0]/$pageSize);
 $sql = "Select questionId, questionDesc from Question where questionDesc like '%$queryString%' ";
-	$sql .= " Limit $from,$to ";
+	$sql .= " Limit $from,$pageSize ";
 
 $res = runSQL($sql);
 $result = array();
