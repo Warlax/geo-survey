@@ -37,7 +37,7 @@ $sql = "Select q.questionId, q.questionDesc from Question q
 	q.questionId = qc.questionID
 	JOIN category c ON
 	qc.categoryId = c.categoryId where categoryDesc like '%$queryString%' 
-	LIMIT $from,$to";
+	LIMIT $from,$pageSize";
 
 
 $res = runSQL($sql);
