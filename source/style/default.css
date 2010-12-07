@@ -39,11 +39,11 @@ a:active{
 }
 
 #searchForm{
-	azimuth:far-right;
 	background-color: #FFFFFF;
 	padding-top: 2px;
 	padding-bottom: 2px;
-	right: 5%;
+	position: absolute;
+	right: 15px;
 	margin-left: 50%;
 }
 
