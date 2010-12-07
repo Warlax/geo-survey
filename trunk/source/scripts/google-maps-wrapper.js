@@ -257,15 +257,11 @@ function showMap(elementId, centerLat, centerLng, answerList, question)
 	    }
 	}
 
-	var w = document.width
 	var h = document.height * 0.5
-	width = ((w) | 0) - 10
 	height = (h) | 0
-	left = 0
 	
 	map_placeholder.style.width = '100%'
 	map_placeholder.style.height = height + 'px'
-	map_placeholder.style.left = left + 'px'
     
     var map = createGoogleMap(elementId, centerLat, centerLng, 100)
     var bounds = new google.maps.LatLngBounds(); //new
