@@ -3,9 +3,22 @@
 
 
 body {
-	background-color: #6666FF;
+	background-color: #999;
 	font-family: Arial, Helvetica, sans-serif;
 	}
+
+a:link{ 
+	color:green; text-decoration:none; 
+}
+a:visited{ 
+	color:green; text-decoration:none; 
+}
+a:hover{ 
+	color:red; text-decoration:none; 
+}
+a:active{ 
+	color:orange; text-decoration:none; 
+}
 
 #content{
 	background-color: #FFFFFF;
@@ -39,6 +52,12 @@ body {
 
 #map_legend_wrapper{
 	clear: both;
+}
+
+#map_legend{
+	background-color: #FFF;
+	padding: 5px;
+	border: thin solid #000;
 }
 
 #map_legend_list {
