@@ -10,12 +10,22 @@
 </head> 
 <body> 
  
-  <div class="header" id="header"> 
-		<a href="../index.html">
-			<img src="../icons/icon.jpg" width="92" height="92" />
+<div class="header" id="header"> 
+	<div id="logo">
+		<a href="index.html">
+			<img src="icons/icon.jpg" width="92" height="92" />
 		</a>
-<div id= "title"><h2 align="center" >GeoHive</h2> 
-</div> 
+	</div>
+       	<form id="searchForm"> 
+		<div align="right">
+			<input type="text" id="searchField" /> 
+			<input type="submit" id="searchButton" value="Search" onClick="startSearch(); return false;" /> 
+		</div>
+	</form> 
+	<div id= "title">
+		<h2>GeoHive</h2>
+	</div>
+
 </div> 
 
 <div> 
